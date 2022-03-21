@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Intro from "./components/intro";
-import Home from "./components/home";
+import Intro from "./pages/intro";
+import Home from "./pages/home";
 import { Routes, Route } from "react-router-dom";
+import Nav from "./components/nav";
 
 function App() {
     const [intro, setIntro] = useState(true);
@@ -19,6 +20,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
                 </Routes>
+                <Nav></Nav>
             </div>
         </div>
     );
