@@ -16,7 +16,7 @@ function Intro() {
     return (
         <div
             id="intro"
-            className="container absolute z-50 flex flex-col items-center justify-center w-full py-10 mx-auto bg-white dark:bg-bg_dark"
+            className="container fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col items-center justify-center w-full h-screen py-10 mx-auto bg-white dark:bg-bg_dark"
         >
             <h1 className="mb-3 text-3xl font-bold text-main">Quran Web App</h1>
             <p className="mb-5 text-lg text-center text-gray-500">

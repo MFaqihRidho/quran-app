@@ -1,7 +1,34 @@
-import React from "react";
-import Nav from "../components/nav";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
+
+    const handleClickSurah = (event) => {
+        event.preventDefault();
+        navigate(`/surah/${event.currentTarget.id}`);
+    };
+
+    useEffect(() => {
+        const getSurahList = async () => {
+            await fetch(`http://api.quran.com/api/v3/chapters?language=id`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error("Something went wrong");
+                })
+                .then((responseJson) => {
+                    setData(responseJson.chapters);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+        getSurahList();
+    }, []);
+
     return (
         <div className="relative w-full bg-white dark:bg-bg_dark">
             <div className="py-5">
@@ -30,7 +57,7 @@ function Home() {
                     <p className="text-lg text-gray-500">Assalamu'alaikum</p>
                     <p className="text-2xl font-semibold">Hamba Allah</p>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center mb-10">
                     <div className="relative flex items-start w-full h-40 overflow-hidden rounded-2xl bg-gradient-to-r from-light_secondary to-main">
                         <div className="flex flex-col justify-between h-full gap-5 px-5 py-10">
                             <div className="flex items-center justify-center gap-1 text-white">
@@ -62,19 +89,47 @@ function Home() {
                         />
                     </div>
                 </div>
-                <div className="flex">
-                    <div>
-                        <div className="relative flex items-center justify-center w-3 h-3">
-                            <svg
-                                className="absolute inline-flex w-7 h-7 fill-main"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path d="M16.142 2l5.858 5.858v8.284l-5.858 5.858h-8.284l-5.858-5.858v-8.284l5.858-5.858h8.284zm.829-2h-9.942l-7.029 7.029v9.941l7.029 7.03h9.941l7.03-7.029v-9.942l-7.029-7.029z" />
-                            </svg>
-                            <p className="relative inline-flex">1</p>
-                        </div>
-                    </div>
+                <div className="flex flex-col gap-5 pb-8">
+                    {data &&
+                        data.map((data) => {
+                            return (
+                                <div
+                                    onClick={(e) => handleClickSurah(e)}
+                                    id={data.id}
+                                    className="flex flex-col gap-5 cursor-pointer"
+                                >
+                                    <div className="flex flex-row items-center justify-between">
+                                        <div className="flex flex-row items-center gap-6 px-3">
+                                            <div className="relative flex items-center justify-center w-3 h-3">
+                                                <svg
+                                                    className="absolute inline-flex w-9 h-9 fill-main"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M16.142 2l5.858 5.858v8.284l-5.858 5.858h-8.284l-5.858-5.858v-8.284l5.858-5.858h8.284zm.829-2h-9.942l-7.029 7.029v9.941l7.029 7.03h9.941l7.03-7.029v-9.942l-7.029-7.029z" />
+                                                </svg>
+                                                <p className="relative inline-flex">
+                                                    {data.id}
+                                                </p>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <p className="text-xl font-medium">
+                                                    {data.name_simple}
+                                                </p>
+                                                <p className="text-sm font-light text-gray-500 uppercase">
+                                                    {data.revelation_place} ●{" "}
+                                                    {data.verses_count} ayat
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p className="text-4xl text-main">
+                                            {data.name_arabic}
+                                        </p>
+                                    </div>
+                                    <div className="w-full h-[0.5px] bg-gray-500"></div>
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
         </div>

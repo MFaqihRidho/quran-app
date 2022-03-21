@@ -2,7 +2,7 @@ import React from "react";
 
 function Nav() {
     return (
-        <nav className="fixed max-w-[800px] -translate-x-1/2 left-1/2 bottom-0 min-w-[300px] w-full h-14 shadow-[0_-5px_16px_0_rgba(186,176,206,0.2)]">
+        <nav className="fixed max-w-[800px] bg-white dark:bg-bg_dark -translate-x-1/2 left-1/2 bottom-0 min-w-[300px] w-full h-14 shadow-[0_-5px_16px_0_rgba(186,176,206,0.2)]">
             <div className="flex items-center content-center justify-around h-full text-gray-500">
                 <button>
                     <svg
@@ -54,6 +54,22 @@ function Nav() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                    </svg>
+                </button>
+                <button>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-9 h-9"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                     </svg>
                 </button>
