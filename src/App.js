@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import { Routes, Route } from "react-router-dom";
 import Nav from "./components/nav";
 import Settings from "./pages/settings";
+import Surah from "./pages/surah";
 
 function App() {
     const [intro, setIntro] = useState(true);
@@ -21,6 +22,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/settings" element={<Settings />}></Route>
+                    <Route path="/surah/:id" element={<Surah />}></Route>
                 </Routes>
                 <Nav></Nav>
             </div>

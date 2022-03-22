@@ -30,10 +30,10 @@ function Home() {
     }, []);
 
     return (
-        <div className="relative w-full bg-white dark:bg-bg_dark">
+        <div className="relative w-full min-h-screen bg-white dark:bg-bg_dark">
             <div className="py-5">
                 <div className="flex flex-row items-center justify-between mb-7">
-                    <h1 className="text-xl font-bold text-main">
+                    <h1 className="text-xl font-bold text-main dark:text-light_secondary">
                         Quran Web App
                     </h1>
                     <button>
@@ -102,7 +102,7 @@ function Home() {
                                         <div className="flex flex-row items-center gap-6 px-3">
                                             <div className="relative flex items-center justify-center w-3 h-3">
                                                 <svg
-                                                    className="absolute inline-flex w-9 h-9 fill-main"
+                                                    className="absolute inline-flex w-9 h-9 fill-main dark:fill-light_secondary"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24"
                                                 >
@@ -122,7 +122,7 @@ function Home() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <p className="text-4xl text-main">
+                                        <p className="text-4xl text-main dark:text-light_secondary">
                                             {data.name_arabic}
                                         </p>
                                     </div>
