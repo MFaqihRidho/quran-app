@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
     const [data, setData] = useState([]);
+    const [error, setError] = useState([]);
     const navigate = useNavigate();
 
     const handleClickSurah = (event) => {
@@ -12,7 +13,7 @@ function Home() {
 
     useEffect(() => {
         const getSurahList = async () => {
-            await fetch(`http://api.quran.com/api/v3/chapters?language=id`)
+            await fetch(`http://api.alquran.cloud/v1/surah`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();
@@ -20,13 +21,15 @@ function Home() {
                     throw new Error("Something went wrong");
                 })
                 .then((responseJson) => {
-                    setData(responseJson.chapters);
+                    setData(responseJson.data);
                 })
                 .catch((error) => {
                     console.log(error);
+                    setError(error);
                 });
         };
         getSurahList();
+        console.log(data);
     }, []);
 
     return (
@@ -95,7 +98,7 @@ function Home() {
                             return (
                                 <div
                                     onClick={(e) => handleClickSurah(e)}
-                                    id={data.id}
+                                    id={data.number}
                                     className="flex flex-col gap-5 cursor-pointer"
                                 >
                                     <div className="flex flex-row items-center justify-between">
@@ -109,21 +112,21 @@ function Home() {
                                                     <path d="M16.142 2l5.858 5.858v8.284l-5.858 5.858h-8.284l-5.858-5.858v-8.284l5.858-5.858h8.284zm.829-2h-9.942l-7.029 7.029v9.941l7.029 7.03h9.941l7.03-7.029v-9.942l-7.029-7.029z" />
                                                 </svg>
                                                 <p className="relative inline-flex">
-                                                    {data.id}
+                                                    {data.number}
                                                 </p>
                                             </div>
                                             <div className="flex flex-col">
                                                 <p className="text-xl font-medium">
-                                                    {data.name_simple}
+                                                    {data.englishName}
                                                 </p>
                                                 <p className="text-sm font-light text-gray-500 uppercase">
-                                                    {data.revelation_place} ●{" "}
-                                                    {data.verses_count} ayat
+                                                    {data.revelationType} ●{" "}
+                                                    {data.numberOfAyahs} ayat
                                                 </p>
                                             </div>
                                         </div>
                                         <p className="text-4xl text-main dark:text-light_secondary">
-                                            {data.name_arabic}
+                                            {data.name.replace("سُورَةُ", "")}
                                         </p>
                                     </div>
                                     <div className="w-full h-[0.5px] bg-gray-500"></div>
