@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Modal from "../components/modal";
 
 function Surah() {
     const [details, setDetails] = useState([]);
     const [play, setPlay] = useState(false);
     const [pause, setPause] = useState(false);
+    const [show, setShow] = useState(false);
     const [id, setId] = useState(false);
     const [ayat, setAyat] = useState([]);
     const [translate, setTranslate] = useState([]);
@@ -34,6 +36,22 @@ function Surah() {
             setPause(false);
             setId("");
         };
+    };
+
+    const handleCLickLastRead = (data) => {
+        setShow(true);
+        setId(data);
+    };
+
+    const handleClickYes = () => {
+        localStorage.setItem("last", id);
+        setShow(false);
+        setId("");
+    };
+
+    const handleClickNo = () => {
+        setShow(false);
+        setId("");
     };
 
     useEffect(() => {
@@ -151,7 +169,7 @@ function Surah() {
                                                 id === data.number ? (
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="w-8 h-8"
+                                                        className="w-10 h-10"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -166,7 +184,7 @@ function Surah() {
                                                 ) : (
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="w-8 h-8"
+                                                        className="w-10 h-10"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -188,7 +206,7 @@ function Surah() {
                                             <button>
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-8 h-8"
+                                                    className="w-10 h-10"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -203,26 +221,43 @@ function Surah() {
                                             </button>
                                             <button
                                                 onClick={() =>
-                                                    localStorage.setItem(
-                                                        "last",
+                                                    handleCLickLastRead(
                                                         data.number
                                                     )
                                                 }
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-8 h-8"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                    strokeWidth={2}
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                                    />
-                                                </svg>
+                                                {localStorage.getItem(
+                                                    "last"
+                                                ) === data.number.toString() ? (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="w-10 h-10"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                                            clipRule="evenodd"
+                                                        />
+                                                    </svg>
+                                                ) : (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="w-10 h-10"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        strokeWidth={2}
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                                                        />
+                                                    </svg>
+                                                )}
                                             </button>
                                         </div>
                                     </div>
@@ -245,6 +280,12 @@ function Surah() {
                         })}
                 </div>
             </div>
+            <Modal
+                title={"Do you really want to mark this verse as last read?"}
+                show={show}
+                no={() => handleClickNo()}
+                yes={() => handleClickYes()}
+            ></Modal>
         </div>
     );
 }

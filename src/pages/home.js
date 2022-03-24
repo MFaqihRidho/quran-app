@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
     const [data, setData] = useState([]);
+    const [last, setLast] = useState([]);
     const [error, setError] = useState([]);
     const navigate = useNavigate();
 
@@ -12,6 +13,7 @@ function Home() {
     };
 
     useEffect(() => {
+        let lastAyat = localStorage.getItem("last");
         const getSurahList = async () => {
             await fetch(`http://api.alquran.cloud/v1/surah`)
                 .then((response) => {
@@ -28,8 +30,24 @@ function Home() {
                     setError(error);
                 });
         };
+        const getLastAyat = async () => {
+            await fetch(`http://api.alquran.cloud/v1/ayah/${lastAyat}`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error("Something went wrong");
+                })
+                .then((responseJson) => {
+                    setLast(responseJson.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setError(error);
+                });
+        };
         getSurahList();
-        console.log(data);
+        getLastAyat();
     }, []);
 
     return (
@@ -78,10 +96,10 @@ function Home() {
                             </div>
                             <div className="text-white">
                                 <p className="text-lg font-semibold">
-                                    Al Fatihah
+                                    {last?.surah?.englishName}
                                 </p>
                                 <p className="text-sm font-light">
-                                    Ayat no : 1
+                                    Ayat no : {last?.numberInSurah}
                                 </p>
                             </div>
                         </div>
