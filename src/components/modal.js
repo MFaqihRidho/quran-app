@@ -5,10 +5,13 @@ function Modal(props) {
         <div
             className={`container fixed top-0 bottom-0 left-0 right-0 z-50 ${
                 props.show ? "flex" : "hidden"
-            } flex-col items-center justify-center  w-full h-screen py-10 mx-auto bg-bg_dark/50`}
+            } flex-col items-center justify-center w-full max-w-[800px] h-screen py-10 mx-auto bg-bg_dark/50`}
         >
             {" "}
-            <div className="flex flex-col items-center justify-center w-[80%] gap-5 px-10 py-5 shadow-xl rounded-xl h-[30%] bg-main ">
+            <div
+                id="modal"
+                className="flex flex-col items-center justify-center w-[80%] gap-5 px-10 py-5 shadow-xl rounded-xl h-[30%] bg-main "
+            >
                 <p className="text-2xl text-center">{props.title}</p>
                 <div className="flex items-center justify-center w-full gap-5">
                     <button

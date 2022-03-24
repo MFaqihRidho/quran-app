@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Modal from "../components/modal";
+import gsap from "gsap";
 
 function Surah() {
     const [details, setDetails] = useState([]);
@@ -41,17 +42,55 @@ function Surah() {
     const handleCLickLastRead = (data) => {
         setShow(true);
         setId(data);
+        startedLastRead();
+    };
+
+    const startedLastRead = () => {
+        gsap.fromTo(
+            "#modal",
+            { scale: 0 },
+            { scale: 1, duration: 1, ease: "elastic" }
+        );
+    };
+
+    const endedLastRead = () => {
+        gsap.fromTo(
+            "#modal",
+            { scale: 1 },
+            { scale: 0, duration: 1, ease: "elastic" }
+        );
     };
 
     const handleClickYes = () => {
         localStorage.setItem("last", id);
-        setShow(false);
+        setTimeout(function () {
+            setShow(false);
+        }, 1000);
         setId("");
+        endedLastRead();
     };
 
     const handleClickNo = () => {
-        setShow(false);
+        setTimeout(function () {
+            setShow(false);
+        }, 1000);
         setId("");
+        endedLastRead();
+    };
+
+    const handleBookmark = (data) => {
+        console.log(localStorage.getItem("bookmark"));
+        if (localStorage.getItem("bookmark") === null) {
+            localStorage.setItem(
+                "bookmark",
+                JSON.stringify([{ number: data }])
+            );
+        } else {
+            const lastData = JSON.parse(localStorage.getItem("bookmark"));
+
+            const dataAll = [...lastData, { number: data }];
+            localStorage.setItem("bookmark", JSON.stringify(dataAll));
+        }
     };
 
     useEffect(() => {
@@ -150,23 +189,25 @@ function Surah() {
                     {ayat &&
                         ayat.map((data, index) => {
                             return (
-                                <div className="w-full h-fit">
+                                <div id={data.number} className="w-full h-fit">
                                     <div className="flex items-center justify-between w-full px-5 mb-5 rounded-xl h-14 text-main bg-main/10 dark:bg-light_primary/10">
                                         <p className="px-4 text-lg font-light text-center text-white rounded-full bg-main">
                                             {data.numberInSurah}
                                         </p>
                                         <div className="flex gap-5">
                                             <audio
-                                                id={data.number}
+                                                id={`audio${data.number}`}
                                                 src={data.audio}
                                             ></audio>
                                             <button
                                                 onClick={() =>
-                                                    playAudio(data.number)
+                                                    playAudio(
+                                                        `audio${data.number}`
+                                                    )
                                                 }
                                             >
                                                 {pause === false &&
-                                                id === data.number ? (
+                                                id === `audio${data.number}` ? (
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="w-10 h-10"
@@ -203,7 +244,11 @@ function Surah() {
                                                     </svg>
                                                 )}
                                             </button>
-                                            <button>
+                                            <button
+                                                onClick={() =>
+                                                    handleBookmark(data.number)
+                                                }
+                                            >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="w-10 h-10"
