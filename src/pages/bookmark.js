@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Bookmark() {
+    const navigate = useNavigate();
     const [local, setLocal] = useState(
         JSON.parse(localStorage.getItem("bookmark"))
     );
@@ -41,8 +43,8 @@ function Bookmark() {
     };
 
     useEffect(() => {
-        console.log(local);
-    });
+        setLocal(JSON.parse(localStorage.getItem("bookmark")));
+    }, []);
 
     return (
         <div className="relative w-full min-h-screen bg-white dark:bg-bg_dark">
@@ -122,6 +124,16 @@ function Bookmark() {
                                             >
                                                 <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
                                             </svg>
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                navigate(
+                                                    `/surah/${data.surah}#${data.data.number}`
+                                                )
+                                            }
+                                            className="bg-main text-white px-3 rounded-lg"
+                                        >
+                                            Go to surah
                                         </button>
                                     </div>
                                 </div>

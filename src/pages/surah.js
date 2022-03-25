@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Modal from "../components/modal";
 import gsap from "gsap";
+import AyatLoading from "../components/ayat loading";
 
 function Surah() {
+    const [loading, setLoading] = useState(true);
     const [details, setDetails] = useState([]);
     const [play, setPlay] = useState(false);
     const [pause, setPause] = useState(false);
@@ -105,6 +107,7 @@ function Surah() {
     };
 
     useEffect(() => {
+        setLoading(true);
         const getAyatList = async () => {
             await fetch(
                 `http://api.alquran.cloud/v1/surah/${params.id}/editions/ar.abdulbasitmurattal`
@@ -118,6 +121,7 @@ function Surah() {
                 .then((responseJson) => {
                     setAyat(responseJson.data[0].ayahs);
                     setDetails(responseJson.data[0]);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     setError(error);
@@ -148,7 +152,7 @@ function Surah() {
 
     return (
         <div className="relative w-full min-h-screen bg-white dark:bg-bg_dark">
-            <div className="flex flex-col items-center gap-5 py-5 mb-8">
+            <div className="flex w-full flex-col items-center gap-5 py-5 mb-8">
                 <div className="flex flex-row items-center self-start gap-5">
                     <button onClick={() => navigate("/")}>
                         <svg
@@ -195,6 +199,7 @@ function Surah() {
                         alt=""
                     />
                 </div>
+                {loading && <AyatLoading></AyatLoading>}
                 <div className="flex flex-col gap-3 pb-7">
                     {ayat &&
                         ayat.map((data, index) => {

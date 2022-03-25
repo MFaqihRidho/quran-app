@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SurahLoading from "../components/surah loading";
 
 function Home() {
     const [data, setData] = useState([]);
     const [last, setLast] = useState([]);
     const [error, setError] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     const handleClickSurah = (event) => {
         event.preventDefault();
@@ -14,6 +16,7 @@ function Home() {
 
     useEffect(() => {
         let lastAyat = localStorage.getItem("last");
+        setLoading(true);
         const getSurahList = async () => {
             await fetch(`http://api.alquran.cloud/v1/surah`)
                 .then((response) => {
@@ -24,6 +27,7 @@ function Home() {
                 })
                 .then((responseJson) => {
                     setData(responseJson.data);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -110,7 +114,8 @@ function Home() {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col gap-5 pb-8">
+                {loading && <SurahLoading></SurahLoading>}
+                <div className="flex flex-col gap-5 pb-20">
                     {data &&
                         data.map((data) => {
                             return (

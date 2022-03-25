@@ -12,17 +12,17 @@ function Modal(props) {
                 id="modal"
                 className="flex flex-col items-center justify-center w-[80%] gap-5 px-10 py-5 shadow-xl rounded-xl h-[30%] bg-main "
             >
-                <p className="text-2xl text-center">{props.title}</p>
+                <p className="text-2xl text-white text-center">{props.title}</p>
                 <div className="flex items-center justify-center w-full gap-5">
                     <button
                         onClick={props.no}
-                        className="px-5 py-1 text-xl text-center rounded-xl bg-dark_primary"
+                        className="px-5 py-1 text-white text-xl text-center rounded-xl bg-dark_primary"
                     >
                         No
                     </button>
                     <button
                         onClick={props.yes}
-                        className="px-5 py-1 text-xl text-center rounded-xl bg-dark_primary"
+                        className="px-5 py-1 text-white text-xl text-center rounded-xl bg-dark_primary"
                     >
                         Yes
                     </button>
