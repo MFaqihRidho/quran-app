@@ -21,8 +21,8 @@ function About() {
                     </p>
                     <p>
                         Of course this website is not perfect, so please report
-                        it if you find bugs, something wrong in the holy quran
-                        ,or ask for new features
+                        it if you find bugs, something wrong in this website ,or
+                        ask for new features
                     </p>
                 </div>
                 <div className="mb-5 text-xl font-medium">
