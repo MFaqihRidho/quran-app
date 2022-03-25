@@ -110,7 +110,7 @@ function Surah() {
         setLoading(true);
         const getAyatList = async () => {
             await fetch(
-                `http://api.alquran.cloud/v1/surah/${params.id}/editions/ar.abdulbasitmurattal`
+                `https://api.alquran.cloud/v1/surah/${params.id}/editions/ar.abdulbasitmurattal`
             )
                 .then((response) => {
                     if (response.ok) {
@@ -130,7 +130,7 @@ function Surah() {
         };
         const getTranslate = async () => {
             await fetch(
-                `http://api.alquran.cloud/v1/surah/${params.id}/id.indonesian`
+                `https://api.alquran.cloud/v1/surah/${params.id}/id.indonesian`
             )
                 .then((response) => {
                     if (response.ok) {

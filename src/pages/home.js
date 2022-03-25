@@ -18,7 +18,7 @@ function Home() {
         let lastAyat = localStorage.getItem("last");
         setLoading(true);
         const getSurahList = async () => {
-            await fetch(`http://api.alquran.cloud/v1/surah`)
+            await fetch(`https://api.alquran.cloud/v1/surah`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();
@@ -35,7 +35,7 @@ function Home() {
                 });
         };
         const getLastAyat = async () => {
-            await fetch(`http://api.alquran.cloud/v1/ayah/${lastAyat}`)
+            await fetch(`https://api.alquran.cloud/v1/ayah/${lastAyat}`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();
