@@ -35,7 +35,9 @@ function Home() {
                 });
         };
         const getLastAyat = async () => {
-            await fetch(`https://api.alquran.cloud/v1/ayah/${lastAyat}`)
+            await fetch(
+                `https://api.alquran.cloud/v1/ayah/${lastAyat ? lastAyat : 1}`
+            )
                 .then((response) => {
                     if (response.ok) {
                         return response.json();
