@@ -9,6 +9,9 @@ function Surah() {
     const [pause, setPause] = useState(false);
     const [show, setShow] = useState(false);
     const [id, setId] = useState(false);
+    const [local, setLocal] = useState(
+        JSON.parse(localStorage.getItem("bookmark"))
+    );
     const [ayat, setAyat] = useState([]);
     const [translate, setTranslate] = useState([]);
     const [error, setError] = useState([]);
@@ -79,17 +82,25 @@ function Surah() {
     };
 
     const handleBookmark = (data) => {
-        console.log(localStorage.getItem("bookmark"));
         if (localStorage.getItem("bookmark") === null) {
-            localStorage.setItem(
-                "bookmark",
-                JSON.stringify([{ number: data }])
+            localStorage.setItem("bookmark", JSON.stringify([data]));
+            setLocal([data]);
+        } else if (
+            JSON.parse(localStorage.getItem("bookmark")).some(
+                (e) => e.data.number === data.data.number
+            )
+        ) {
+            const lastData = JSON.parse(localStorage.getItem("bookmark"));
+            const dataALl = lastData.filter(
+                (book) => book.data.number !== data.data.number
             );
+            localStorage.setItem("bookmark", JSON.stringify(dataALl));
+            setLocal(dataALl);
         } else {
             const lastData = JSON.parse(localStorage.getItem("bookmark"));
-
-            const dataAll = [...lastData, { number: data }];
+            const dataAll = [...lastData, data];
             localStorage.setItem("bookmark", JSON.stringify(dataAll));
+            setLocal(dataAll);
         }
     };
 
@@ -133,7 +144,6 @@ function Surah() {
         };
         getAyatList();
         getTranslate();
-        console.log(ayat);
     }, []);
 
     return (
@@ -246,23 +256,45 @@ function Surah() {
                                             </button>
                                             <button
                                                 onClick={() =>
-                                                    handleBookmark(data.number)
+                                                    handleBookmark({
+                                                        data,
+                                                        surah: details.number,
+                                                        translate:
+                                                            translate[index]
+                                                                ?.text,
+                                                    })
                                                 }
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="w-10 h-10"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                    strokeWidth={2}
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                                                    />
-                                                </svg>
+                                                {local &&
+                                                local.some(
+                                                    (e) =>
+                                                        e.data.number ===
+                                                        data.number
+                                                ) ? (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="w-10 h-10"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="w-10 h-10"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        strokeWidth={2}
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                                                        />
+                                                    </svg>
+                                                )}
                                             </button>
                                             <button
                                                 onClick={() =>
@@ -324,6 +356,7 @@ function Surah() {
                             );
                         })}
                 </div>
+                <h1>{error}</h1>
             </div>
             <Modal
                 title={"Do you really want to mark this verse as last read?"}

@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Nav from "./components/nav";
 import Settings from "./pages/settings";
 import Surah from "./pages/surah";
+import Bookmark from "./pages/bookmark";
 
 function App() {
     const [intro, setIntro] = useState(true);
@@ -21,6 +22,7 @@ function App() {
                 {intro && <Intro></Intro>}
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
+                    <Route path="/bookmark" element={<Bookmark />}></Route>
                     <Route path="/settings" element={<Settings />}></Route>
                     <Route path="/surah/:id" element={<Surah />}></Route>
                 </Routes>
