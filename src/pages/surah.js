@@ -52,7 +52,7 @@ function Surah() {
 
     const startedLastRead = () => {
         gsap.fromTo(
-            "#modal",
+            "#modalLastRead",
             { scale: 0 },
             { scale: 1, duration: 1, ease: "elastic" }
         );
@@ -60,7 +60,7 @@ function Surah() {
 
     const endedLastRead = () => {
         gsap.fromTo(
-            "#modal",
+            "#modalLastRead",
             { scale: 1 },
             { scale: 0, duration: 1, ease: "elastic" }
         );
@@ -148,11 +148,11 @@ function Surah() {
         };
         getAyatList();
         getTranslate();
-    }, []);
+    }, [params.id]);
 
     return (
         <div className="relative w-full min-h-screen bg-white dark:bg-bg_dark">
-            <div className="flex w-full flex-col items-center gap-5 py-5 mb-8">
+            <div className="flex flex-col items-center w-full gap-5 py-5 mb-8">
                 <div className="flex flex-row items-center self-start gap-5">
                     <button onClick={() => navigate("/")}>
                         <svg
@@ -364,6 +364,7 @@ function Surah() {
                 <h1>{error}</h1>
             </div>
             <Modal
+                id="modalLastRead"
                 title={"Do you really want to mark this verse as last read?"}
                 show={show}
                 no={() => handleClickNo()}

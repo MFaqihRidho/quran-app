@@ -19,7 +19,7 @@ function Settings() {
         } else {
             setTheme("light");
         }
-    });
+    }, []);
 
     return (
         <div className="relative w-full min-h-screen bg-white dark:bg-bg_dark">

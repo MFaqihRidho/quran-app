@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "../components/modal";
+import gsap from "gsap";
 
 function Bookmark() {
     const navigate = useNavigate();
@@ -9,6 +11,7 @@ function Bookmark() {
     const [play, setPlay] = useState(false);
     const [pause, setPause] = useState(false);
     const [id, setId] = useState(false);
+    const [show, setShow] = useState(false);
 
     const playAudio = (data) => {
         const audio = document.getElementById(data);
@@ -34,12 +37,53 @@ function Bookmark() {
         };
     };
 
+    const startedBookmark = () => {
+        gsap.fromTo(
+            "#modalBookmark",
+            { scale: 0 },
+            { scale: 1, duration: 1, ease: "elastic" }
+        );
+    };
+
+    const endedBookmark = () => {
+        gsap.fromTo(
+            "#modalBookmark",
+            { scale: 1 },
+            { scale: 0, duration: 1, ease: "elastic" }
+        );
+    };
+
     const handleBookmark = (data) => {
         const lastData = JSON.parse(localStorage.getItem("bookmark"));
         const dataALl = lastData.filter(
             (book) => book.data.number !== data.data.number
         );
         localStorage.setItem("bookmark", JSON.stringify(dataALl));
+    };
+
+    const handleShowModal = (data) => {
+        setId(data);
+        setShow(true);
+        setPause(true);
+        startedBookmark();
+    };
+
+    const handleModalYes = () => {
+        setTimeout(function () {
+            setShow(false);
+        }, 1000);
+        handleBookmark(id);
+        window.location.reload();
+        setId("");
+        endedBookmark();
+    };
+
+    const handleModalNo = () => {
+        setTimeout(function () {
+            setShow(false);
+        }, 1000);
+        setId("");
+        endedBookmark();
     };
 
     useEffect(() => {
@@ -114,7 +158,9 @@ function Bookmark() {
                                             )}
                                         </button>
                                         <button
-                                            onClick={() => handleBookmark(data)}
+                                            onClick={() =>
+                                                handleShowModal(data)
+                                            }
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +177,7 @@ function Bookmark() {
                                                     `/surah/${data.surah}#${data.data.number}`
                                                 )
                                             }
-                                            className="bg-main text-white px-3 rounded-lg"
+                                            className="px-3 text-white rounded-lg bg-main"
                                         >
                                             Go to surah
                                         </button>
@@ -157,6 +203,14 @@ function Bookmark() {
                     })}
                 </div>
             </div>
+            <Modal
+                title="Do you really want to delete this verse from your bookmarks?
+                "
+                id="modalBookmark"
+                yes={() => handleModalYes()}
+                no={() => handleModalNo()}
+                show={show}
+            ></Modal>
         </div>
     );
 }

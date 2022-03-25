@@ -6,6 +6,7 @@ import Nav from "./components/nav";
 import Settings from "./pages/settings";
 import Surah from "./pages/surah";
 import Bookmark from "./pages/bookmark";
+import About from "./pages/about";
 
 function App() {
     const [intro, setIntro] = useState(true);
@@ -22,6 +23,7 @@ function App() {
                 {intro && <Intro></Intro>}
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
+                    <Route path="/about" element={<About />}></Route>
                     <Route path="/bookmark" element={<Bookmark />}></Route>
                     <Route path="/settings" element={<Settings />}></Route>
                     <Route path="/surah/:id" element={<Surah />}></Route>
