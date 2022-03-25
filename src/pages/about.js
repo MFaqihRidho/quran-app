@@ -45,6 +45,18 @@ function About() {
                             Tanvir Ahassan
                         </a>
                     </p>
+                    <p className="text-xl font-medium">
+                        Scripture icons created by{" "}
+                        <a
+                            href="https://www.flaticon.com/free-icons/scripture"
+                            title="scripture icons"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-bold underline"
+                        >
+                            rukanicon - Flaticon
+                        </a>
+                    </p>
                 </div>
 
                 <div className="flex flex-col items-center justify-center w-full mt-10 text-center">
