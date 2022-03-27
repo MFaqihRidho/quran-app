@@ -14,6 +14,11 @@ function Home() {
         navigate(`/surah/${event.currentTarget.id}`);
     };
 
+    const handleClickHeader = (event,number) => {
+        event.preventDefault();
+        navigate(`/surah/${number}`);
+    }
+
     useEffect(() => {
         let lastAyat = localStorage.getItem("last");
         setLoading(true);
@@ -69,7 +74,7 @@ function Home() {
                     <p className="text-2xl font-semibold">Hamba Allah</p>
                 </div>
                 <div className="flex items-center justify-center mb-10">
-                    <div className="relative flex items-start w-full h-40 overflow-hidden rounded-2xl bg-gradient-to-r from-light_secondary to-main">
+                    <div onClick={(e) => handleClickHeader(e,last?.surah?.number)} className="relative flex items-start w-full h-40 overflow-hidden rounded-2xl bg-gradient-to-r from-light_secondary to-main">
                         <div className="flex flex-col justify-between h-full gap-5 px-5 py-10">
                             <div className="flex items-center justify-center gap-1 text-white">
                                 <svg

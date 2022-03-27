@@ -146,8 +146,15 @@ function Surah() {
                     console.log(error);
                 });
         };
+        const scrollTop = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        };
         getAyatList();
         getTranslate();
+        scrollTop();
     }, [params.id]);
 
     return (
